@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<XMLDB PATH="mod/quickpractice/db" VERSION="20240101" COMMENT="XMLDB file for mod_quickpractice"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="../../../../lib/xmldb/xmldb.xsd"
+>
+  <TABLES>
+
+    <!-- 练习主表 -->
+    <TABLE NAME="quickpractice" COMMENT="QuickPractice activity instances">
+      <FIELDS>
+        <FIELD NAME="id"              TYPE="int"    LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="course"          TYPE="int"    LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+        <FIELD NAME="name"            TYPE="char"   LENGTH="255" NOTNULL="true" DEFAULT=""/>
+        <FIELD NAME="intro"           TYPE="text"   NOTNULL="false"/>
+        <FIELD NAME="introformat"     TYPE="int"    LENGTH="4"  NOTNULL="true" DEFAULT="0"/>
+        <FIELD NAME="timeopen"        TYPE="int"    LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+        <FIELD NAME="timeclose"       TYPE="int"    LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+        <FIELD NAME="timelimit"       TYPE="int"    LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+        <FIELD NAME="maxattempts"     TYPE="int"    LENGTH="4"  NOTNULL="true" DEFAULT="1"/>
+        <FIELD NAME="shuffle"         TYPE="int"    LENGTH="1"  NOTNULL="true" DEFAULT="0"/>
+        <FIELD NAME="showfeedback"    TYPE="int"    LENGTH="1"  NOTNULL="true" DEFAULT="1"/>
+        <FIELD NAME="showranking"     TYPE="int"    LENGTH="1"  NOTNULL="true" DEFAULT="1"/>
+        <FIELD NAME="passscore"       TYPE="number" LENGTH="10" DECIMALS="2" NOTNULL="true" DEFAULT="60"/>
+        <FIELD NAME="grademethod"     TYPE="int"    LENGTH="4"  NOTNULL="true" DEFAULT="1"/>
+        <FIELD NAME="questioncount"   TYPE="int"    LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+        <FIELD NAME="timecreated"     TYPE="int"    LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+        <FIELD NAME="timemodified"    TYPE="int"    LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+        <FIELD NAME="createdby"       TYPE="int"    LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+        <KEY NAME="fk_course" TYPE="foreign" FIELDS="course" REFTABLE="course" REFFIELDS="id"/>
+      </KEYS>
+      <INDEXES>
+        <INDEX NAME="course" UNIQUE="false" FIELDS="course"/>
+      </INDEXES>
+    </TABLE>
+
+    <!-- 题库表 -->
+    <TABLE NAME="quickpractice_questions" COMMENT="Questions in QuickPractice bank">
+      <FIELDS>
+        <FIELD NAME="id"              TYPE="int"    LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="quickpracticeid" TYPE="int"    LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+        <FIELD NAME="qtype"           TYPE="char"   LENGTH="20" NOTNULL="true" DEFAULT="multichoice"/>
+        <FIELD NAME="questiontext"    TYPE="text"   NOTNULL="true"/>
+        <FIELD NAME="questionformat"  TYPE="int"    LENGTH="4"  NOTNULL="true" DEFAULT="1"/>
+        <FIELD NAME="options"         TYPE="text"   NOTNULL="false"/>
+        <FIELD NAME="answers"         TYPE="text"   NOTNULL="false"/>
+        <FIELD NAME="feedback"        TYPE="text"   NOTNULL="false"/>
+        <FIELD NAME="score"           TYPE="number" LENGTH="10" DECIMALS="2" NOTNULL="true" DEFAULT="1"/>
+        <FIELD NAME="difficulty"      TYPE="int"    LENGTH="1"  NOTNULL="true" DEFAULT="2"/>
+        <FIELD NAME="category"        TYPE="char"   LENGTH="100" NOTNULL="false"/>
+        <FIELD NAME="sortorder"       TYPE="int"    LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+        <FIELD NAME="source"          TYPE="char"   LENGTH="20" NOTNULL="true" DEFAULT="manual"/>
+        <FIELD NAME="timecreated"     TYPE="int"    LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+        <KEY NAME="fk_quickpracticeid" TYPE="foreign" FIELDS="quickpracticeid" REFTABLE="quickpractice" REFFIELDS="id"/>
+      </KEYS>
+      <INDEXES>
+        <INDEX NAME="quickpracticeid" UNIQUE="false" FIELDS="quickpracticeid"/>
+        <INDEX NAME="qtype" UNIQUE="false" FIELDS="qtype"/>
+      </INDEXES>
+    </TABLE>
+
+    <!-- 答题会话表 -->
+    <TABLE NAME="quickpractice_attempts" COMMENT="Student attempt sessions">
+      <FIELDS>
+        <FIELD NAME="id"              TYPE="int"    LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="quickpracticeid" TYPE="int"    LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+        <FIELD NAME="userid"          TYPE="int"    LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+        <FIELD NAME="attemptnum"      TYPE="int"    LENGTH="4"  NOTNULL="true" DEFAULT="1"/>
+        <FIELD NAME="state"           TYPE="char"   LENGTH="16" NOTNULL="true" DEFAULT="inprogress"/>
+        <FIELD NAME="score"           TYPE="number" LENGTH="10" DECIMALS="2" NOTNULL="true" DEFAULT="0"/>
+        <FIELD NAME="maxscore"        TYPE="number" LENGTH="10" DECIMALS="2" NOTNULL="true" DEFAULT="0"/>
+        <FIELD NAME="timecreated"     TYPE="int"    LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+        <FIELD NAME="timefinished"    TYPE="int"    LENGTH="10" NOTNULL="false"/>
+        <FIELD NAME="duration"        TYPE="int"    LENGTH="10" NOTNULL="false"/>
+        <FIELD NAME="questionorder"   TYPE="text"   NOTNULL="false"/>
+        <FIELD NAME="classname"       TYPE="char"   LENGTH="100" NOTNULL="false"/>
+        <FIELD NAME="ipaddress"       TYPE="char"   LENGTH="45" NOTNULL="false"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+        <KEY NAME="fk_quickpracticeid" TYPE="foreign" FIELDS="quickpracticeid" REFTABLE="quickpractice" REFFIELDS="id"/>
+        <KEY NAME="fk_userid" TYPE="foreign" FIELDS="userid" REFTABLE="user" REFFIELDS="id"/>
+      </KEYS>
+      <INDEXES>
+        <INDEX NAME="quickpracticeid" UNIQUE="false" FIELDS="quickpracticeid"/>
+        <INDEX NAME="userid" UNIQUE="false" FIELDS="userid"/>
+        <INDEX NAME="state" UNIQUE="false" FIELDS="state"/>
+      </INDEXES>
+    </TABLE>
+
+    <!-- 答题明细表 -->
+    <TABLE NAME="quickpractice_responses" COMMENT="Individual question responses within an attempt">
+      <FIELDS>
+        <FIELD NAME="id"           TYPE="int"    LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="attemptid"    TYPE="int"    LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+        <FIELD NAME="questionid"   TYPE="int"    LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+        <FIELD NAME="response"     TYPE="text"   NOTNULL="false"/>
+        <FIELD NAME="score"        TYPE="number" LENGTH="10" DECIMALS="2" NOTNULL="true" DEFAULT="0"/>
+        <FIELD NAME="maxscore"     TYPE="number" LENGTH="10" DECIMALS="2" NOTNULL="true" DEFAULT="0"/>
+        <FIELD NAME="correct"      TYPE="int"    LENGTH="1"  NOTNULL="false"/>
+        <FIELD NAME="feedback"     TYPE="text"   NOTNULL="false"/>
+        <FIELD NAME="timeanswered" TYPE="int"    LENGTH="10" NOTNULL="false"/>
+        <FIELD NAME="timetaken"    TYPE="int"    LENGTH="10" NOTNULL="false"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+        <KEY NAME="fk_attemptid"  TYPE="foreign" FIELDS="attemptid"  REFTABLE="quickpractice_attempts"  REFFIELDS="id"/>
+        <KEY NAME="fk_questionid" TYPE="foreign" FIELDS="questionid" REFTABLE="quickpractice_questions" REFFIELDS="id"/>
+      </KEYS>
+      <INDEXES>
+        <INDEX NAME="attemptid_questionid" UNIQUE="true" FIELDS="attemptid,questionid"/>
+      </INDEXES>
+    </TABLE>
+
+    <!-- 评估报告表 -->
+    <TABLE NAME="quickpractice_reports" COMMENT="Assessment reports generated by teachers">
+      <FIELDS>
+        <FIELD NAME="id"              TYPE="int"      LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="quickpracticeid" TYPE="int"      LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+        <FIELD NAME="createdby"       TYPE="int"      LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+        <FIELD NAME="classname"       TYPE="char"     LENGTH="100" NOTNULL="false"/>
+        <FIELD NAME="reporttype"      TYPE="char"     LENGTH="20" NOTNULL="true" DEFAULT="class"/>
+        <FIELD NAME="reportdata"      TYPE="text"     NOTNULL="false"/>
+        <FIELD NAME="timecreated"     TYPE="int"      LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+        <FIELD NAME="title"           TYPE="char"     LENGTH="255" NOTNULL="false"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+        <KEY NAME="fk_quickpracticeid" TYPE="foreign" FIELDS="quickpracticeid" REFTABLE="quickpractice" REFFIELDS="id"/>
+      </KEYS>
+      <INDEXES>
+        <INDEX NAME="quickpracticeid" UNIQUE="false" FIELDS="quickpracticeid"/>
+      </INDEXES>
+    </TABLE>
+
+    <!-- 题库分类表 -->
+    <TABLE NAME="quickpractice_categories" COMMENT="Question categories for QuickPractice bank">
+      <FIELDS>
+        <FIELD NAME="id"          TYPE="int"  LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="courseid"    TYPE="int"  LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+        <FIELD NAME="name"        TYPE="char" LENGTH="100" NOTNULL="true" DEFAULT=""/>
+        <FIELD NAME="description" TYPE="text" NOTNULL="false"/>
+        <FIELD NAME="parentid"    TYPE="int"  LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+        <FIELD NAME="timecreated" TYPE="int"  LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+      </KEYS>
+      <INDEXES>
+        <INDEX NAME="courseid" UNIQUE="false" FIELDS="courseid"/>
+      </INDEXES>
+    </TABLE>
+
+  </TABLES>
+</XMLDB>

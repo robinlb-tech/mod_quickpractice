@@ -1,0 +1,338 @@
+/**
+ * QuickPractice Styles
+ * Compatible with Moodle's Bootstrap 4/5 themes (Boost)
+ *
+ * @package    mod_quickpractice
+ * @copyright  2024 QuickPractice Team
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+
+/* ───────────────────────────────────────
+   CSS Variables
+   ─────────────────────────────────────── */
+:root {
+    --qp-primary:    #2563eb;
+    --qp-success:    #16a34a;
+    --qp-warning:    #d97706;
+    --qp-danger:     #dc2626;
+    --qp-muted:      #6b7280;
+    --qp-border:     #e5e7eb;
+    --qp-bg-light:   #f9fafb;
+    --qp-radius:     10px;
+    --qp-shadow:     0 2px 8px rgba(0,0,0,.08);
+}
+
+/* ───────────────────────────────────────
+   Info Card (view.php)
+   ─────────────────────────────────────── */
+.qp-info-card {
+    background: var(--qp-bg-light);
+    border: 1px solid var(--qp-border);
+    border-radius: var(--qp-radius);
+    padding: 1.25rem;
+    margin-bottom: 1.5rem;
+}
+.qp-info-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .75rem;
+}
+.qp-info-item {
+    background: #fff;
+    border: 1px solid var(--qp-border);
+    border-radius: 6px;
+    padding: .5rem 1rem;
+    font-size: .9rem;
+}
+.qp-label { color: var(--qp-muted); }
+
+/* ───────────────────────────────────────
+   Start button
+   ─────────────────────────────────────── */
+.qp-start-btn {
+    text-align: center;
+    margin: 2rem 0;
+}
+.qp-start-btn .btn {
+    padding: .75rem 3rem;
+    font-size: 1.2rem;
+    border-radius: 8px;
+}
+
+/* ───────────────────────────────────────
+   Teacher quick links
+   ─────────────────────────────────────── */
+.qp-teacher-links {
+    margin-top: 1.5rem;
+    padding-top: 1rem;
+    border-top: 1px dashed var(--qp-border);
+}
+
+/* ───────────────────────────────────────
+   Badges
+   ─────────────────────────────────────── */
+.qp-badge {
+    display: inline-block;
+    padding: .15rem .6rem;
+    border-radius: 99px;
+    font-size: .75rem;
+    font-weight: 600;
+}
+.qp-pass { background: #dcfce7; color: var(--qp-success); }
+.qp-fail { background: #fee2e2; color: var(--qp-danger); }
+.qp-manual { background: #fef9c3; color: #854d0e; }
+
+/* ───────────────────────────────────────
+   Attempt page
+   ─────────────────────────────────────── */
+.qp-timer-bar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: #fff;
+    border-bottom: 2px solid var(--qp-border);
+    padding: .5rem 1rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    box-shadow: var(--qp-shadow);
+}
+#qp-timer-display {
+    font-size: 1.4rem;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    min-width: 4.5rem;
+    color: var(--qp-primary);
+}
+.qp-timer-progress {
+    flex: 1;
+    height: 8px;
+    background: var(--qp-border);
+    border-radius: 99px;
+    overflow: hidden;
+}
+#qp-timer-fill {
+    height: 100%;
+    background: var(--qp-primary);
+    transition: width .9s linear, background .3s;
+}
+.qp-timer-warning #qp-timer-display,
+.qp-timer-warning #qp-timer-fill { color: var(--qp-warning); background: var(--qp-warning); }
+.qp-timer-danger  #qp-timer-display,
+.qp-timer-danger  #qp-timer-fill  { color: var(--qp-danger);  background: var(--qp-danger);  animation: qp-blink 1s infinite; }
+
+@keyframes qp-blink { 0%,100%{opacity:1} 50%{opacity:.4} }
+
+.qp-attempt-title { margin-top: 1.25rem; }
+.qp-attempt-info  { color: var(--qp-muted); font-size: .9rem; margin-bottom: 1.5rem; }
+
+.qp-questions-container { max-width: 860px; }
+
+.qp-question-block {
+    background: #fff;
+    border: 1px solid var(--qp-border);
+    border-radius: var(--qp-radius);
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 1.25rem;
+    box-shadow: var(--qp-shadow);
+}
+.qp-q-number {
+    font-size: .8rem;
+    color: var(--qp-muted);
+    margin-bottom: .4rem;
+}
+.qp-q-text { font-size: 1.05rem; margin-bottom: .75rem; }
+.qp-q-input { margin-top: .5rem; }
+
+/* ── 题型角标 ── */
+.qp-qtype-badge {
+    display: inline-block;
+    font-size: .8rem;
+    font-weight: 600;
+    padding: .15rem .5rem;
+    border-radius: 4px;
+    margin-bottom: .4rem;
+    vertical-align: middle;
+}
+.qp-badge-multi  { background: #fef3c7; color: #92400e; border: 1px solid #fcd34d; }
+.qp-badge-tf     { background: #e0f2fe; color: #0369a1; border: 1px solid #7dd3fc; }
+.qp-badge-sa     { background: #f0fdf4; color: #166534; border: 1px solid #86efac; }
+.qp-badge-num    { background: #fdf4ff; color: #7e22ce; border: 1px solid #d8b4fe; }
+.qp-badge-match  { background: #fff7ed; color: #9a3412; border: 1px solid #fdba74; }
+.qp-badge-essay  { background: #f8fafc; color: #475569; border: 1px solid #cbd5e1; }
+
+/* ── 多选题提示文字 ── */
+.qp-multi-hint {
+    display: block;
+    color: #92400e;
+    font-size: .82rem;
+    margin-bottom: .4rem;
+    font-weight: 500;
+}
+
+.qp-choices { display: flex; flex-direction: column; gap: .5rem; }
+.qp-choice {
+    display: flex;
+    align-items: flex-start;
+    gap: .6rem;
+    padding: .5rem .75rem;
+    border: 1px solid var(--qp-border);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background .15s, border-color .15s;
+}
+.qp-choice:hover { background: #eff6ff; border-color: var(--qp-primary); }
+.qp-choice input { margin-top: .2rem; flex-shrink: 0; }
+
+.qp-text-input, .qp-num-input { max-width: 400px; }
+.qp-essay-input { width: 100%; }
+
+.qp-matching-table { width: 100%; }
+.qp-matching-table th { background: var(--qp-bg-light); }
+.qp-matching-table td { padding: .5rem; vertical-align: middle; }
+
+.qp-submit-area { margin: 2rem 0; text-align: center; }
+.qp-submit-btn  { padding: .75rem 3rem; font-size: 1.1rem; }
+
+/* ───────────────────────────────────────
+   Result page
+   ─────────────────────────────────────── */
+.qp-result-page { max-width: 860px; margin: 0 auto; }
+
+.qp-score-card {
+    text-align: center;
+    padding: 2rem;
+    border-radius: var(--qp-radius);
+    margin-bottom: 2rem;
+    box-shadow: var(--qp-shadow);
+}
+.qp-score-card.qp-pass { background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%); border: 2px solid #4ade80; }
+.qp-score-card.qp-fail { background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%); border: 2px solid #f87171; }
+
+.qp-score-big   { font-size: 4rem; font-weight: 800; line-height: 1; }
+.qp-score-unit  { font-size: 1.5rem; font-weight: 400; }
+.qp-score-label { font-size: 1.3rem; font-weight: 600; margin: .5rem 0; }
+.qp-score-meta  { font-size: .9rem; color: var(--qp-muted); }
+
+.qp-review-section h3 { margin-bottom: 1rem; }
+.qp-review-item {
+    border: 1px solid var(--qp-border);
+    border-left-width: 4px;
+    border-radius: var(--qp-radius);
+    padding: 1rem 1.25rem;
+    margin-bottom: 1rem;
+    background: #fff;
+}
+.qp-review-item.qp-correct { border-left-color: var(--qp-success); }
+.qp-review-item.qp-wrong   { border-left-color: var(--qp-danger); }
+.qp-review-item.qp-manual  { border-left-color: var(--qp-warning); }
+
+.qp-review-num     { font-size: .8rem; color: var(--qp-muted); margin-bottom: .5rem; }
+.qp-review-text    { font-size: 1rem; margin-bottom: .75rem; }
+.qp-review-answer  { font-size: .9rem; background: var(--qp-bg-light); padding: .5rem .75rem; border-radius: 6px; margin-bottom: .5rem; }
+.qp-review-feedback{ font-size: .9rem; color: #1d4ed8; background: #eff6ff; padding: .5rem .75rem; border-radius: 6px; margin-bottom: .5rem; }
+.qp-review-score   { text-align: right; font-weight: 600; font-size: .9rem; }
+
+.qp-result-actions { margin-top: 2rem; padding-top: 1rem; border-top: 1px solid var(--qp-border); }
+
+/* ───────────────────────────────────────
+   Teacher Report Dashboard
+   ─────────────────────────────────────── */
+.qp-stat-row { display: flex; flex-wrap: wrap; gap: 1rem; margin-bottom: 1.5rem; }
+.qp-stat-card {
+    flex: 1 1 140px;
+    background: #fff;
+    border: 1px solid var(--qp-border);
+    border-radius: var(--qp-radius);
+    padding: 1rem 1.25rem;
+    text-align: center;
+    box-shadow: var(--qp-shadow);
+    transition: transform .15s;
+}
+.qp-stat-card:hover { transform: translateY(-2px); }
+.qp-stat-icon  { font-size: 1.8rem; margin-bottom: .25rem; }
+.qp-stat-value { font-size: 1.6rem; font-weight: 700; color: var(--qp-primary); }
+.qp-stat-label { font-size: .8rem; color: var(--qp-muted); margin-top: .25rem; }
+
+.qp-chart-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem; }
+.qp-chart-box { background: #fff; border: 1px solid var(--qp-border); border-radius: var(--qp-radius); padding: 1rem; }
+
+@media (max-width: 768px) {
+    .qp-chart-row { grid-template-columns: 1fr; }
+}
+
+.qp-filter-form {
+    display: flex;
+    gap: .75rem;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-bottom: 1rem;
+    padding: .75rem;
+    background: var(--qp-bg-light);
+    border-radius: 6px;
+}
+.qp-filter-form select,
+.qp-filter-form input[type=text] {
+    padding: .375rem .75rem;
+    border: 1px solid var(--qp-border);
+    border-radius: 6px;
+    font-size: .9rem;
+}
+
+.qp-table-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: .5rem; }
+
+/* ───────────────────────────────────────
+   Ranking page
+   ─────────────────────────────────────── */
+.qp-ranking-table td { vertical-align: middle; }
+.qp-score-bar { display: inline-block; width: 80px; height: 8px; background: var(--qp-border); border-radius: 99px; overflow: hidden; vertical-align: middle; margin-right: .4rem; }
+.qp-score-bar > div { height: 100%; background: var(--qp-primary); border-radius: 99px; }
+.qp-score-bar.qp-bar-good > div { background: var(--qp-success); }
+.qp-score-bar.qp-bar-mid  > div { background: var(--qp-warning); }
+.qp-score-bar.qp-bar-bad  > div { background: var(--qp-danger);  }
+
+.qp-my-row { background: #eff6ff !important; font-weight: 600; }
+.qp-my-rank-hint { color: var(--qp-primary); font-size: 1rem; margin-top: .75rem; }
+
+/* ───────────────────────────────────────
+   Question bank
+   ─────────────────────────────────────── */
+.qp-qtype-badge {
+    background: #e0e7ff;
+    color: #3730a3;
+    padding: .1rem .5rem;
+    border-radius: 99px;
+    font-size: .75rem;
+    font-weight: 600;
+}
+
+/* ───────────────────────────────────────
+   Assessment report
+   ─────────────────────────────────────── */
+.qp-report-section {
+    background: #fff;
+    border: 1px solid var(--qp-border);
+    border-radius: var(--qp-radius);
+    padding: 1.25rem;
+    margin-bottom: 1.25rem;
+}
+.qp-report-section h4 { margin-bottom: 1rem; }
+.qp-weak        { border-left: 4px solid var(--qp-danger); }
+.qp-suggestions { border-left: 4px solid var(--qp-primary); }
+
+/* ───────────────────────────────────────
+   Shared table
+   ─────────────────────────────────────── */
+.qp-table { width: 100%; border-collapse: collapse; font-size: .9rem; }
+.qp-table th { background: var(--qp-bg-light); padding: .6rem .75rem; text-align: left; border-bottom: 2px solid var(--qp-border); }
+.qp-table td { padding: .55rem .75rem; border-bottom: 1px solid var(--qp-border); }
+.qp-table tbody tr:hover { background: #f8faff; }
+
+/* ───────────────────────────────────────
+   Responsive
+   ─────────────────────────────────────── */
+@media (max-width: 600px) {
+    .qp-info-grid, .qp-filter-form { flex-direction: column; }
+    .qp-score-big { font-size: 3rem; }
+    .qp-stat-card { flex: 1 1 44%; }
+}
